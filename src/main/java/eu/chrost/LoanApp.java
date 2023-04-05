@@ -1,7 +1,10 @@
 package eu.chrost;
 
+import eu.chrost.loan.Approval;
 import eu.chrost.loan.Evaluator;
+import eu.chrost.loan.Refusal;
 import eu.chrost.loan.Request;
+import eu.chrost.loan.Suspension;
 
 import java.math.BigDecimal;
 import java.time.Period;
@@ -14,17 +17,20 @@ public class LoanApp {
 
         var response = evaluator.processLoanRequest(request);
 
-        switch (response.getType()) {
-            case APPROVAL -> System.out.printf("Loan approved, amount granted: %.2f%n",
-                    response.getAmount().doubleValue());
-            case REFUSAL -> System.out.printf("Loan refused due to: %s%n", response.getReason());
-            case SUSPENSION -> {
+        switch (response) {
+            case Approval approval -> System.out.printf("Loan approved, amount granted: %.2f%n",
+                    approval.getAmount().doubleValue());
+            case Refusal refusal -> System.out.printf("Loan refused due to: %s%n", refusal.getReason());
+            case Suspension suspension -> {
                 System.out.println("Loan processing suspended.");
                 System.out.println("Following additional requirements are needed to make final decision: ");
-                for (String requirement : response.getAdditionalRequirements()) {
+                for (String requirement : suspension.getAdditionalRequirements()) {
                     System.out.println(requirement);
                 }
-                System.out.printf("Deadline to fulfill requirements mentioned above: %s%n", response.getDeadline());
+                System.out.printf("Deadline to fulfill requirements mentioned above: %s%n", suspension.getDeadline());
+            }
+            default -> {
+                throw new IllegalStateException("Unknown response type");
             }
         }
     }
