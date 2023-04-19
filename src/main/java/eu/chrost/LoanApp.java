@@ -18,20 +18,20 @@ public class LoanApp {
         var response = evaluator.processLoanRequest(request);
 
         if (response instanceof Approval approval) {
-            if (approval.getAmount().compareTo(request.getAmount()) >= 0) {
+            if (approval.amount().compareTo(request.amount()) >= 0) {
                 System.out.println("Loan approved, granted full amount");
             } else {
-                System.out.printf("Loan approved, amount granted: %.2f%n", approval.getAmount().doubleValue());
+                System.out.printf("Loan approved, amount granted: %.2f%n", approval.amount().doubleValue());
             }
         } else if (response instanceof Refusal refusal) {
-            System.out.printf("Loan refused due to: %s%n", refusal.getReason());
+            System.out.printf("Loan refused due to: %s%n", refusal.reason());
         } else if (response instanceof Suspension suspension) {
             System.out.println("Loan processing suspended.");
             System.out.println("Following additional requirements are needed to make final decision: ");
-            for (String requirement : suspension.getAdditionalRequirements()) {
+            for (String requirement : suspension.additionalRequirements()) {
                 System.out.println(requirement);
             }
-            System.out.printf("Deadline to fulfill requirements mentioned above: %s%n", suspension.getDeadline());
+            System.out.printf("Deadline to fulfill requirements mentioned above: %s%n", suspension.deadline());
         }
     }
 }

@@ -6,12 +6,12 @@ import java.util.List;
 
 public class Evaluator {
     public Response processLoanRequest(Request request) {
-        if (request.getAmount().compareTo(BigDecimal.valueOf(20_000)) > 0) {
+        if (request.amount().compareTo(BigDecimal.valueOf(20_000)) > 0) {
             return new Refusal("Amount is too big");
         }
-        if (request.getAmount().compareTo(BigDecimal.valueOf(5_000)) > 0 && request.getPeriod().getYears() > 1) {
+        if (request.amount().compareTo(BigDecimal.valueOf(5_000)) > 0 && request.period().getYears() > 1) {
             return new Suspension(List.of("Employee reference"), LocalDate.now().plusDays(10));
         }
-        return new Approval(request.getAmount().multiply(BigDecimal.valueOf(0.8)));
+        return new Approval(request.amount().multiply(BigDecimal.valueOf(0.8)));
     }
 }
