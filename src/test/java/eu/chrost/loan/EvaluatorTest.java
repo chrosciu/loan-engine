@@ -20,10 +20,8 @@ class EvaluatorTest {
         var response = evaluator.processLoanRequest(request);
 
         //then
-        assertThat(response).satisfies(
-                r -> assertThat(r.getType()).isEqualTo(Response.Type.REFUSAL),
-                r -> assertThat(r.getReason()).isEqualTo("Amount is too big")
-        );
+        assertThat(response).isInstanceOfSatisfying(Refusal.class,
+                refusal -> assertThat(refusal.reason()).isEqualTo("Amount is too big"));
     }
 
 }
