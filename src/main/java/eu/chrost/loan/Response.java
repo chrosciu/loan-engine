@@ -1,4 +1,4 @@
 package eu.chrost.loan;
 
-public interface Response {
+public sealed interface Response permits Approval, Refusal, Suspension {
 }

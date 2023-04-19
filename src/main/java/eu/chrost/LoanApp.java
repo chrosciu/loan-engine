@@ -31,7 +31,6 @@ public class LoanApp {
                 }
                 System.out.printf("Deadline to fulfill requirements mentioned above: %s%n", suspension.deadline());
             }
-            default -> throw new IllegalStateException("Unknown response type");
         }
     }
 }
