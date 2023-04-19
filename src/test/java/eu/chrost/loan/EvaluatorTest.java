@@ -21,7 +21,7 @@ class EvaluatorTest {
 
         //then
         assertThat(response).isInstanceOfSatisfying(Refusal.class,
-                refusal -> assertThat(refusal.getReason()).isEqualTo("Amount is too big"));
+                refusal -> assertThat(refusal.reason()).isEqualTo("Amount is too big"));
     }
 
     @Test
@@ -34,7 +34,7 @@ class EvaluatorTest {
 
         //then
         assertThat(response).isInstanceOfSatisfying(Approval.class,
-                approval -> assertThat(approval.getAmount()).isLessThan(BigDecimal.valueOf(4_000))
+                approval -> assertThat(approval.amount()).isLessThan(BigDecimal.valueOf(4_000))
         );
     }
 }
