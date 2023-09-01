@@ -18,18 +18,18 @@ public class LoanApp {
         var response = evaluator.processLoanRequest(request);
 
         switch (response) {
-            case Approval approval when approval.amount().compareTo(request.amount()) >= 0 ->
+            case Approval(var amount) when amount.compareTo(request.amount()) >= 0 ->
                     System.out.println("Loan approved, granted full amount");
-            case Approval approval ->
-                    System.out.printf("Loan approved, amount granted: %.2f%n", approval.amount().doubleValue());
-            case Refusal refusal -> System.out.printf("Loan refused due to: %s%n", refusal.reason());
-            case Suspension suspension -> {
+            case Approval(var amount) ->
+                    System.out.printf("Loan approved, amount granted: %.2f%n", amount.doubleValue());
+            case Refusal(var reason) -> System.out.printf("Loan refused due to: %s%n", reason);
+            case Suspension(var additionalRequirements, var deadline) -> {
                 System.out.println("Loan processing suspended.");
                 System.out.println("Following additional requirements are needed to make final decision: ");
-                for (String requirement : suspension.additionalRequirements()) {
+                for (String requirement : additionalRequirements) {
                     System.out.println(requirement);
                 }
-                System.out.printf("Deadline to fulfill requirements mentioned above: %s%n", suspension.deadline());
+                System.out.printf("Deadline to fulfill requirements mentioned above: %s%n", deadline);
             }
         }
     }
