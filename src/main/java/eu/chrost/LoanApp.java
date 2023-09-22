@@ -18,13 +18,10 @@ public class LoanApp {
         var response = evaluator.processLoanRequest(request);
 
         switch (response) {
-            case Approval approval -> {
-                if (approval.amount().compareTo(request.amount()) >= 0) {
+            case Approval approval when approval.amount().compareTo(request.amount()) >= 0 ->
                     System.out.println("Loan approved, granted full amount");
-                } else {
+            case Approval approval ->
                     System.out.printf("Loan approved, amount granted: %.2f%n", approval.amount().doubleValue());
-                }
-            }
             case Refusal refusal -> System.out.printf("Loan refused due to: %s%n", refusal.reason());
             case Suspension suspension -> {
                 System.out.println("Loan processing suspended.");
