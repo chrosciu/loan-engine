@@ -20,10 +20,8 @@ class EvaluatorTest {
         var response = evaluator.processLoanRequest(request);
 
         //then
-        assertThat(response).satisfies(
-                r -> assertThat(r.getType()).isEqualTo(Response.Type.REFUSAL),
-                r -> assertThat(r.getReason()).isEqualTo("Amount is too big")
-        );
+        assertThat(response).isInstanceOfSatisfying(Refusal.class,
+                refusal -> assertThat(refusal.getReason()).isEqualTo("Amount is too big"));
     }
 
     @Test
@@ -35,9 +33,8 @@ class EvaluatorTest {
         var response = evaluator.processLoanRequest(request);
 
         //then
-        assertThat(response).satisfies(
-                r -> assertThat(r.getType()).isEqualTo(Response.Type.APPROVAL),
-                r -> assertThat(r.getAmount()).isLessThan(BigDecimal.valueOf(4_000))
+        assertThat(response).isInstanceOfSatisfying(Approval.class,
+                approval -> assertThat(approval.getAmount()).isLessThan(BigDecimal.valueOf(4_000))
         );
     }
 }
