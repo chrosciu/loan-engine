@@ -17,18 +17,15 @@ public class LoanApp {
 
         var response = evaluator.processLoanRequest(request);
 
-        if (response instanceof Approval) {
-            var approval = (Approval) response;
+        if (response instanceof Approval approval) {
             if (approval.getAmount().compareTo(request.getAmount()) >= 0) {
                 System.out.println("Loan approved, granted full amount");
             } else {
                 System.out.printf("Loan approved, amount granted: %.2f%n", approval.getAmount().doubleValue());
             }
-        } else if (response instanceof Refusal) {
-            var refusal = (Refusal) response;
+        } else if (response instanceof Refusal refusal) {
             System.out.printf("Loan refused due to: %s%n", refusal.getReason());
-        } else if (response instanceof Suspension) {
-            var suspension = (Suspension) response;
+        } else if (response instanceof Suspension suspension) {
             System.out.println("Loan processing suspended.");
             System.out.println("Following additional requirements are needed to make final decision: ");
             for (String requirement : suspension.getAdditionalRequirements()) {
