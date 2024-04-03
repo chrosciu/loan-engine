@@ -1,10 +1,8 @@
 package eu.chrost;
 
-import eu.chrost.loan.Approval;
 import eu.chrost.loan.Evaluator;
-import eu.chrost.loan.Refusal;
+import eu.chrost.loan.Formatter;
 import eu.chrost.loan.Request;
-import eu.chrost.loan.Suspension;
 
 import java.math.BigDecimal;
 import java.time.Period;
@@ -17,20 +15,8 @@ public class LoanApp {
 
         var response = evaluator.processLoanRequest(request);
 
-        switch (response) {
-            case Approval(var amount) when amount.compareTo(request.amount()) >= 0 ->
-                    System.out.println("Loan approved, granted full amount");
-            case Approval(var amount) ->
-                    System.out.printf("Loan approved, amount granted: %.2f%n", amount.doubleValue());
-            case Refusal(var reason) -> System.out.printf("Loan refused due to: %s%n", reason);
-            case Suspension(var additionalRequirements, var deadline) -> {
-                System.out.println("Loan processing suspended.");
-                System.out.println("Following additional requirements are needed to make final decision: ");
-                for (String requirement : additionalRequirements) {
-                    System.out.println(requirement);
-                }
-                System.out.printf("Deadline to fulfill requirements mentioned above: %s%n", deadline);
-            }
-        }
+        var formatter = new Formatter();
+
+        System.out.println(formatter.formatResponse(response, request));
     }
 }
