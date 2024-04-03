@@ -1,5 +1,3 @@
-package eu.chrost;
-
 import eu.chrost.loan.Evaluator;
 import eu.chrost.loan.Formatter;
 import eu.chrost.loan.Request;
@@ -7,16 +5,15 @@ import eu.chrost.loan.Request;
 import java.math.BigDecimal;
 import java.time.Period;
 
-public class LoanApp {
-    public static void main(String[] args) {
-        var evaluator = new Evaluator();
+void main() {
+    var evaluator = new Evaluator();
 
-        var request = new Request(BigDecimal.valueOf(10_000), Period.ofYears(2));
+    var request = new Request(BigDecimal.valueOf(10_000), Period.ofYears(2));
 
-        var response = evaluator.processLoanRequest(request);
+    var response = evaluator.processLoanRequest(request);
 
-        var formatter = new Formatter();
+    var formatter = new Formatter();
 
-        System.out.println(formatter.formatResponse(response, request));
-    }
+    System.out.println(formatter.formatResponse(response, request));
 }
+
