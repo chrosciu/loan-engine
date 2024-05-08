@@ -17,21 +17,27 @@ public class LoanApp {
 
         var response = evaluator.processLoanRequest(request);
 
-        if (response instanceof Approval approval) {
-            if (approval.amount().compareTo(request.amount()) >= 0) {
-                System.out.println("Loan approved, granted full amount");
-            } else {
-                System.out.printf("Loan approved, amount granted: %.2f%n", approval.amount().doubleValue());
-            }
-        } else if (response instanceof Refusal refusal) {
-            System.out.printf("Loan refused due to: %s%n", refusal.reason());
-        } else if (response instanceof Suspension suspension) {
-            System.out.println("Loan processing suspended.");
-            System.out.println("Following additional requirements are needed to make final decision: ");
-            for (String requirement : suspension.additionalRequirements()) {
-                System.out.println(requirement);
-            }
-            System.out.printf("Deadline to fulfill requirements mentioned above: %s%n", suspension.deadline());
+        switch (response) {
+            case Approval approval:
+                if (approval.amount().compareTo(request.amount()) >= 0) {
+                    System.out.println("Loan approved, granted full amount");
+                } else {
+                    System.out.printf("Loan approved, amount granted: %.2f%n", approval.amount().doubleValue());
+                }
+                break;
+            case Refusal refusal:
+                System.out.printf("Loan refused due to: %s%n", refusal.reason());
+                break;
+            case Suspension suspension:
+                System.out.println("Loan processing suspended.");
+                System.out.println("Following additional requirements are needed to make final decision: ");
+                for (String requirement : suspension.additionalRequirements()) {
+                    System.out.println(requirement);
+                }
+                System.out.printf("Deadline to fulfill requirements mentioned above: %s%n", suspension.deadline());
+                break;
+            default:
+                throw new IllegalStateException("Unknown response type");
         }
     }
 }
