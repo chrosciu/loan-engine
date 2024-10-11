@@ -22,14 +22,13 @@ public class LoanApp {
                     System.out.println("Loan approved, granted full amount");
             case Approval(var amount) ->
                     System.out.printf("Loan approved, amount granted: %.2f%n", amount.doubleValue());
-            case Refusal(var reason) -> System.out.printf("Loan refused due to: %s%n", reason);
-            case Suspension(var additionalRequirements, var deadline) -> {
+            case Refusal _ -> System.out.println("Loan refused");
+            case Suspension(var additionalRequirements, var _) -> {
                 System.out.println("Loan processing suspended.");
                 System.out.println("Following additional requirements are needed to make final decision: ");
                 for (String requirement : additionalRequirements) {
                     System.out.println(requirement);
                 }
-                System.out.printf("Deadline to fulfill requirements mentioned above: %s%n", deadline);
             }
         }
     }
